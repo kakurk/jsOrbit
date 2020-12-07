@@ -9,12 +9,22 @@
     <style>
       .fishes
       {
+        /* This code was copy and pasted from online for overlaying images */
+        /* "stim1" serves as the background image for a div container */
+        /* You need to specify the width and height of the background image */       
         position: relative;
-        top: 0;
         left: 0;
+        top: 0;
+        background-position: center;
+        background-size: cover;
+        width: 800px;
+        height: 600px;
       }
       .fish
       {
+        /* This code was copy and pasted from online for centering images  */
+        /* horizontally and vertically. You need to change the width and height*/
+        /* to match the width and height of the actual stimuli images*/
         position: absolute;
          top: 50%;
          left: 50%;
@@ -76,8 +86,17 @@
     var test = {
       type: "html-keyboard-response",
       stimulus: function(){
+        // this function will grab the data for this current trial and put stim1
+        // and stim2 into the appropriate places in the html code
+
+        // get the data for the current trial. Search the jsPsych website for
+        // the "jsPsych.currentTrial" function
         var raw_data = jsPsych.currentTrial().data;
-        return '<div style="position: relative; left: 0; top: 0; background-image: url('+raw_data.stim1+'); background-position: center; background-size: cover; width: 800px; height: 600px;"><img src='+raw_data.stim2+' class="fish"/></div>'
+
+        // return an html formatted string, inserting "stim1" and "stim2" into the
+        // appropriate places
+        return '<div style="background-image: url('+raw_data.stim1+');" class="fishes"><img src='+raw_data.stim2+' class="fish"/></div>'
+
       },
       choices: ['a', 'l'],
       data: jsPsych.timelineVariable('data'),
