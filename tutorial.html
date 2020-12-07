@@ -6,6 +6,24 @@
     <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
     <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
     <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <style>
+      .fishes
+      {
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+      .fish
+      {
+        position: absolute;
+         top: 50%;
+         left: 50%;
+         width: 300px;
+         height: 300px;
+         margin-top: -150px; /* Half the height */
+         margin-left: -150px; /* Half the width */
+      }
+    </style>
   </head>
   <body></body>
   <script>
@@ -41,8 +59,8 @@
 
     /* test trials */
     var test_stimuli = [
-      { stimulus: "img/Beach01.jpeg", data: {test_part: 'test', correct_response: 'a'}},
-      { stimulus: "img/Office01.jpeg", data: {test_part: 'test', correct_response: 'l'}}
+      { data: {test_part: 'test', correct_response: 'a', stim1: "img/Beach01.jpeg", stim2: "img/blue_circle.png"}},
+      { data: {test_part: 'test', correct_response: 'l', stim1: "img/Office01.jpeg", stim2: "img/orange_circle.png"}}
     ];
 
     var fixation = {
@@ -56,8 +74,11 @@
     }
 
     var test = {
-      type: "image-keyboard-response",
-      stimulus: jsPsych.timelineVariable('stimulus'),
+      type: "html-keyboard-response",
+      stimulus: function(){
+        var raw_data = jsPsych.currentTrial().data;
+        return '<div style="position: relative; left: 0; top: 0; background-image: url('+raw_data.stim1+'); background-position: center; background-size: cover; width: 800px; height: 600px;"><img src='+raw_data.stim2+' class="fish"/></div>'
+      },
       choices: ['a', 'l'],
       data: jsPsych.timelineVariable('data'),
       on_finish: function(data){
@@ -99,5 +120,5 @@ timeline.push(debrief_block);
         jsPsych.data.displayData();
       }
     });
-  </script>
-  </html>
+  </script>s
+</html>
