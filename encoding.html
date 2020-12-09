@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Encoding</title>
+    <script src="jspsych-6.1.0/jspsych.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="jspsych-6.1.0/plugins/jspsych-image-keyboard-response.js"></script>
+    <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    <style>
+      .fishes
+      {
+        /* This code was copy and pasted from online for overlaying images */
+        /* "stim1" serves as the background image for a div container */
+        /* You need to specify the width and height of the background image */
+        position: relative;
+        left: 0;
+        top: 0;
+        background-position: center;
+        background-size: cover;
+        width: 1024px;
+        height: 512px;
+      }
+      .fish
+      {
+        /* This code was copy and pasted from online for centering images  */
+        /* horizontally and vertically. You need to change the width and height*/
+        /* to match the width and height of the actual stimuli images*/
+        position: absolute;
+         top: 50%;
+         left: 50%;
+         width: 300px;
+         height: 300px;
+         margin-top: -150px; /* Half the height */
+         margin-left: -150px; /* Half the width */
+      }
+    </style>
+  </head>
+  <body></body>
+  <script>
+
+    /* create timeline */
+    var timeline = [];
+
+    /* define welcome message trial */
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "Press any key to begin."
+    };
+    timeline.push(welcome);
+
+    /* define instructions trial */
+    var instructions = {
+      type: "html-keyboard-response",
+      stimulus: "<p>In this experiment, you will be presented an object embedded within a  panorama scene.</p>" +
+          "<p>Please remember each object's specific color and location within the scene.</p>" +
+          "<div style='width: 1000px;'>"+
+          "<div style='float: left;'><img src='img/underwater.jpg'></img>" +
+          "</div>"+
+          "<p>Press any key to begin.</p>",
+      post_trial_gap: 2000
+    };
+    timeline.push(instructions);
+
+    /* test trials */
+    var test_stimuli = [
+      { data: {test_part: 'test', correct_response: 'a', stim1: "img/train.jpg", stim2: "img/blue_circle.png"}},
+      { data: {test_part: 'test', correct_response: 'l', stim1: "img/underwater.jpg", stim2: "img/orange_circle.png"}}
+    ];
+
+    var fixation = {
+      type: 'html-keyboard-response',
+      stimulus: '<div style="font-size:60px;">+</div>',
+      choices: jsPsych.NO_KEYS,
+      trial_duration: function(){
+        return jsPsych.randomization.sampleWithoutReplacement([250, 500, 750, 1000, 1250, 1500, 1750, 2000], 1)[0];
+      },
+      data: {test_part: 'fixation'}
+    }
+
+    var test = {
+      type: "image-keyboard-response",
+      stimulus: function(){
+        // this function will grab the data for this current trial and put stim1
+        // and stim2 into the appropriate places in the html code
+
+        // get the data for the current trial. Search the jsPsych website for
+        // the "jsPsych.currentTrial" function
+        var raw_data = jsPsych.currentTrial().data;
+
+        // return an html formatted string, inserting "stim1" and "stim2" into the
+        // appropriate places
+        return '<div style="background-image: url('+raw_data.stim1+');" class="fishes"><img src='+raw_data.stim2+' class="fish"/></div>'
+
+      },
+      choices: ['a', 'l'],
+      data: jsPsych.timelineVariable('data'),
+      on_finish: function(data){
+        data.correct = data.key_press == jsPsych.pluginAPI.convertKeyCharacterToKeyCode(data.correct_response);
+      }
+    }
+
+    var test_procedure = {
+      timeline: [fixation, test],
+      timeline_variables: test_stimuli,
+      randomize_order: true,
+      repetitions: 5
+    }
+
+    timeline.push(test_procedure);
+/* debrief_block */
+    var debrief_block = {
+  type: "html-keyboard-response",
+  stimulus: function() {
+
+    var trials = jsPsych.data.get().filter({test_part: 'test'});
+    var correct_trials = trials.filter({correct: true});
+    var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
+    var rt = Math.round(correct_trials.select('rt').mean());
+
+    return "<p>You responded correctly on "+accuracy+"% of the trials.</p>"+
+    "<p>Your average response time was "+rt+"ms.</p>"+
+    "<p>Press any key to complete the experiment. Thank you!</p>";
+
+  }
+};
+
+timeline.push(debrief_block);
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+  </script>
+  </html>
