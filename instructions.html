@@ -1,0 +1,153 @@
+<html>
+    <head>
+        <title>instructions</title>
+        <script src="jspsych-6.1.0/jspsych.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-image-button-response.js"></script>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+    </head>
+    <body></body>
+    <script>
+
+
+  /* create timeline */
+  var timeline = [];
+
+  /* Study phase instructions */
+
+  var study_instruc = {
+    type: 'html-keyboard-response',
+    stimulus: "<p><b>Instructions: Study Phase</b></p>"
+  };
+  timeline.push(study_instruc);
+
+  var study1 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p>During this experiment, you will be asked to learn information about a series of unique objects. Importantly, some of the objects you encounter will be ‘bombs’ and other objects will be ’safe’.</p>" +
+        "<p>Every bomb and safe object will be presented in a specific color and a specific scene location.</p>" +
+        "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(study1);
+
+  var study2 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p> We would like you to learn the features associated with each object – 1) if it is a bomb or safe, 2) its specific color, and 3) its specific scene location - so that we can identify the bombs and safe objects later on.</p>" +
+        "<p>You should try to remember this information by vividly imagining a story where each object interacts with its associated features in a meaningful way.</p>" +
+        "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(study2)
+
+
+  var study3 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p> Unpleasant warning sounds will alert you to the fact that an object is a bomb. Safe objects will be accompanied by a neutral background sound. </p>" +
+        "<p><b>BOMB</b> sounds include Air, raid signal, Woman screaming, Emergency siren, Alarm clock, Car crash, and Warning alarm</p>"+
+        "<p><b>SAFE</b> sounds include Rain,Lawn mower, Yawning, Polaroid camera, Night wildlife, and Fan</p>" +
+        "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(study3)
+
+  var study4 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p> The object colors will vary around a 360° color spectrum and the object locations will vary within 360° of panorama scenes.</p>" +
+        "<p>Please note that a number of bombs and safe objects will be found in the same scene context across the experiment, but within varying locations around the scene. Several different objects could also be associated with similar colors.</p>" +
+        "<p>Therefore, it is important that you remember the unique combination of each object and its specific scene location (within the panorama) and color, as well as whether each object is a bomb or safe, in preparation for a subsequent memory test. </p>" +
+        "<p>You will have 6 seconds to learn each object. </p>" +
+        "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(study4)
+
+//Test Phase//
+
+  var test_instruc = {
+    type: 'html-keyboard-response',
+    stimulus: "<p><b>Instructions: Test Phase </b></p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(test_instruc)
+
+  var test1 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p>After you have studied some bombs and safe objects, your memory for the object features will be tested. </p>" +
+  "<p>First, you will be shown a grayscale version of an object you studied above the cue <b>‘Remember…’</b> for 4 seconds.</p>" +
+  "<p>During this time, you should try your best to <b>vividly remember as much information as possible about the object </b> (bomb or safe, color, scene location) and <b>hold this whole image in mind </b> while the ‘Remember’ cue is on the screen.</p>" +
+  "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(test1)
+
+  /*var test2 = {
+    type:'image-button-response',
+    stimulus:'img/testex1.png',
+  };
+  timeline.push(test2) */
+  var test3 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p>You will then have an additional 2 seconds to indicate if the object shown is a bomb or is safe using the following scale: 1 = Sure BOMB, 2 = Maybe BOMB, 3 = Maybe SAFE, 4 = Sure SAFE. </p>" +
+  "<p>Please use the number keys 1-4 at the top of the keyboard to make your response as quickly as possible during this time.</p>"+
+  "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+  timeline.push(test3)
+
+var test4 = {
+  type: 'html-keyboard-response',
+  stimulus: "<p>We will then ask you to recreate the bomb or safe object’s color and scene location.</p>" + "<p>The object will appear in a random color and in a random location within the associated scene panorama.</p>"+
+  "<p>Press any key to continue.</p>",
+  post_trial_gap: 1000
+};
+  timeline.push(test4)
+
+
+var test5 = {
+    type: 'html-keyboard-response',
+    stimulus: "<p>For the SCENE question, you should move around the panorama until you find the specific location that was associated with that object when you studied it originally. <b>Hold down ’1’ or ‘2’ to move left and right around the scene and press the space bar to lock in your response.</b></p>" +
+    "<p> Please try to be as precise as possible.</p>"+
+    "<p>Press any key to continue.</p>",
+    post_trial_gap: 1000
+  };
+    timeline.push(test5)
+
+ var test6 = {
+      type: 'html-keyboard-response',
+      stimulus: "<p> For the COLOR question, you should change the object’s color to match the specific color you remember the object being when you studied it originally. <b>Hold down ’1’ or ‘2’ to move left and right around the color spectrum and press the space bar to lock in your response.</b></p>" +
+      "<p> Please try to be as precise as possible.</p>"+
+      "<p>Press any key to continue.</p>",
+      post_trial_gap: 1000
+  };
+      timeline.push(test6)
+
+  var test7 = {
+       type: 'html-keyboard-response',
+       stimulus: "<p> You will repeat these two questions (color, scene location) for all of the bomb and safe objects you studied, but the order of the questions will vary between objects.</p>" +
+       "<p> You will have up to 6 seconds to answer each question – please try your best to respond within this time by pressing the space bar.</p>"+
+       "<p>If you ever can’t remember the object color or scene location, then please respond with your best guess.</p>"+
+       "<p>Press any key to continue.</p>",
+       post_trial_gap: 1000
+  };
+        timeline.push(test7)
+
+  var test8 = {
+        type: 'html-keyboard-response',
+        stimulus: "<p> This task will be divided into 6 study-test blocks. For each block, you will learn a series of unique objects (study phase) and then complete the memory test phase. </p>" +
+        "<p> You will receive feedback on your performance at the end of each block, in terms of the % of the time that you </p>"+ "<p><i> 1) Correctly identified objects as bombs or safe </p>"+ "<p>2) Were close to the correct color of the object</p>" +"<p>3) Were close to the correct scene location of the object </i></p>"+
+        "<p>You will now complete a short practice task, press any key to continue.</p>",
+        post_trial_gap: 1000
+  };
+        timeline.push(test8)
+
+  jsPsych.init({
+    timeline: timeline,
+    on_finish: function() {
+      jsPsych.data.displayData();
+    },
+    default_iti: 250
+  });
+</script>
+
+</html>
